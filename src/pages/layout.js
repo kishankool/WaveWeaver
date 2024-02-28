@@ -1,4 +1,4 @@
-// components/Layout.js
+    // components/Layout.js
 
 import React from 'react';
 
@@ -7,13 +7,11 @@ const Layout = ({ children }) => {
     <div className="layout">
       <header>
         <h1>Wave Weaver</h1>
-        {/* Add any header content here */}
       </header>
       <main>
         {children}
       </main>
       <footer>
-        {/* Add footer content here */}
         <p>&copy; {new Date().getFullYear()} Wave Weaver</p>
       </footer>
       <style jsx>{`
