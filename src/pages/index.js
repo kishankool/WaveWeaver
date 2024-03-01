@@ -3,6 +3,10 @@ import AudioTrack from '../components/AudioTrack';
 import Timeline from '../components/Timeline';
 import PlaybackControls from '../components/PlaybackControls';
 
+import audio1 from '../mockData/batman.mp3';
+import audio2 from '../mockData/har.mp3';
+import audio3 from '../mockData/kudiye.mp3';
+
 const App = () => {
   const [tracks, setTracks] = useState([]);
 
@@ -19,9 +23,17 @@ const App = () => {
     setTracks(newTracks);
   };
 
+  // Initialize tracks with audio files
+  useState(() => {
+    const track1 = { name: 'Track 1', audioSrc: audio1 };
+    const track2 = { name: 'Track 2', audioSrc: audio2 };
+    const track3 = { name: 'Track 3', audioSrc: audio3 };
+    setTracks([track1, track2, track3]);
+  }, []);
+
   return (
     <div>
-      <Timeline>
+      <Timeline tracks={tracks}>
         {tracks.map((track, index) => (
           <AudioTrack
             key={index}
