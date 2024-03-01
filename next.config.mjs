@@ -11,6 +11,12 @@ const nextConfig = {
         filename: 'assets/audio/[name][ext]'
       }
     });
+
+    // Set the correct public path for client-side assets
+    if (!isServer) {
+      config.output.publicPath = '_next/';
+    }
+
     return config;
   }
 };
