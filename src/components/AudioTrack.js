@@ -1,25 +1,66 @@
 // components/AudioTrack.js
 
-import React from 'react';
+import React, { useRef, useState, useEffect } from 'react';
+import WaveSurfer from 'wavesurfer.js';
 
 const AudioTrack = ({ track }) => {
+  const waveformRef = useRef(null);
+  const [waveSurfer, setWaveSurfer] = useState(null);
+
+  useEffect(() => {
+    const wavesurfer = WaveSurfer.create({
+      container: waveformRef.current,
+      waveColor: 'rgba(0, 0, 0, 0.2)',
+      progressColor: 'rgba(0, 0, 0, 0.5)',
+      cursorWidth: 0,
+      height: 60,
+    });
+    wavesurfer.load(track.audioSrc);
+    setWaveSurfer(wavesurfer);
+
+    return () => wavesurfer.destroy();
+  }, [track.audioSrc]);
+
+  const handlePlay = () => {
+    if (waveSurfer) {
+      waveSurfer.playPause();
+    }
+  };
+
+  const handleStop = () => {
+    if (waveSurfer) {
+      waveSurfer.stop();
+    }
+  };
+
   return (
     <div className="audio-track">
       <div className="track-name">{track.name}</div>
-      {/* Add audio waveform visualization here */}
-      {/* Add playback controls here */}
+      <div ref={waveformRef} className="waveform" />
+      <div className="controls">
+        <button onClick={handlePlay}>Play</button>
+        <button onClick={handleStop}>Stop</button>
+      </div>
       <style jsx>{`
         .audio-track {
           display: flex;
-          align-items: center;
-          padding: 0.5rem;
+          flex-direction: column;
+          padding: 1rem;
           border: 1px solid #ccc;
           border-radius: 4px;
-          margin-bottom: 0.5rem;
+          margin-bottom: 1rem;
         }
         .track-name {
-          flex: 1;
-          margin-right: 1rem;
+          font-weight: bold;
+          margin-bottom: 0.5rem;
+        }
+        .waveform {
+          margin-bottom: 0.5rem;
+        }
+        .controls button {
+          margin-right: 0.5rem;
+          padding: 0.5rem;
+          cursor: pointer;
         }
       `}</style>
     </div>
